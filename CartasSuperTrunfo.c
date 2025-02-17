@@ -7,18 +7,22 @@
 // Siga os comentários para implementar cada parte do desafio.
 //Teste larissa
 typedef struct {
-char codigo[4];
-int populacao;
-float area;
-float pib;
-int pontosTuristicos;
-}Cidade;
+    char codigo[4];
+    char nome[50];
+    int populacao;
+    float area;
+    float pib;
+    int pontosTuristicos;
+} Cidade;
 
-void cadastrarCidade(Cidade *cidade){
-printf("\n Cadastro de  Cidade (%s):\n", cidade->codigo);
- printf("População: ");
+
+void cadastrarCidade(Cidade *cidade) {
+    printf("\nCadastro da Cidade (%s):\n", cidade->codigo);
+    printf("Nome da Cidade: ");
+    scanf(" %49[^"]", cidade->nome);
+    printf("Populacao: ");
     scanf("%d", &cidade->populacao);
-    printf("Área (em km²): ");
+    printf("Area (em km²): ");
     scanf("%f", &cidade->area);
     printf("PIB (em bilhões): ");
     scanf("%f", &cidade->pib);
@@ -26,51 +30,35 @@ printf("\n Cadastro de  Cidade (%s):\n", cidade->codigo);
     scanf("%d", &cidade->pontosTuristicos);
 }
 
-void exibirCidades(const Cidade cidades[], int quantidade) {
-    printf("\n--- Cartas Cadastradas ---\n");
-    for (int i = 0; i < quantidade; i++) {
-        printf("\nCidade: %s \n", cidades[i].codigo);
-        printf("População: %d \n", cidades[i].populacao);
-        printf("Área: %.2f km²\n", cidades[i].area);
-        printf("PIB: %.2f bilhões \n", cidades[i].pib);
-        printf("Pontos Turísticos: %d \n", cidades[i].pontosTuristicos);
-    }
+void exibirCidade(const Cidade *cidade) {
+    float densidadePopulacional = cidade->populacao / cidade->area;
+    float pibPerCapita = cidade->pib * 1000000000 / cidade->populacao;
+    
+    printf("\n--- Carta ---\n");
+    printf("Codigo: %s\n", cidade->codigo);
+    printf("Nome da Cidade: %s\n", cidade->nome);
+    printf("Populacao: %d\n", cidade->populacao);
+    printf("Area: %.2f km²\n", cidade->area);
+    printf("PIB: %.2f bilhões\n", cidade->pib);
+    printf("Número de Pontos Turísticos: %d\n", cidade->pontosTuristicos);
+    printf("Densidade Populacional: %.2f hab/km²\n", densidadePopulacional);
+    printf("PIB per Capita: %.2f reais\n", pibPerCapita);
 }
 
 
 
 
 int main() {
-    // Sugestão: Defina variáveis separadas para cada atributo da cidade.
-    // Exemplos de atributos: código da cidade, nome, população, área, PIB, número de pontos turísticos.
+    Cidade cidades[MAX_CIDADES] = { {"A01", "", 0, 0.0, 0.0, 0}, {"B02", "", 0, 0.0, 0.0, 0} };
     
-    // Cadastro das Cartas:
-    // Sugestão: Utilize a função scanf para capturar as entradas do usuário para cada atributo.
-    // Solicite ao usuário que insira as informações de cada cidade, como o código, nome, população, área, etc.
-    
-    // Exibição dos Dados das Cartas:
-    // Sugestão: Utilize a função printf para exibir as informações das cartas cadastradas de forma clara e organizada.
-    // Exiba os valores inseridos para cada atributo da cidade, um por linha.
-     Cidade cidades[MAX_CIDADES];
-    int totalCidades = 0;
-
-    // Gerar códigos de cartas (A01, A02, ..., H04)
-    for (char estado = 'A'; estado <= 'H'; estado++) {
-        for (int cidade = 1; cidade <= 4; cidade++) {
-            if (totalCidades >= MAX_CIDADES) break;
-            snprintf(cidades[totalCidades].codigo, sizeof(cidades[totalCidades].codigo), "%c%02d", estado, cidade);
-            totalCidades++;
-        }
-    }
-
-    // Cadastro de cartas
-    printf("--- Sistema de Cadastro de Cartas Super Trunfo: Países ---\n");
-    for (int i = 0; i < totalCidades; i++) {
+    printf("--- Sistema de Cadastro de Cartas Super Trunfo: Cidades ---\n");
+    for (int i = 0; i < MAX_CIDADES; i++) {
         cadastrarCidade(&cidades[i]);
     }
 
-    // Exibir todas as cartas cadastradas
-    exibirCidades(cidades, totalCidades);
-
+    for (int i = 0; i < MAX_CIDADES; i++) {
+        exibirCidade(&cidades[i]);
+    }
+    
     return 0;
 }
